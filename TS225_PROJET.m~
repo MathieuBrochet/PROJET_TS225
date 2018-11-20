@@ -37,6 +37,3 @@ imshow(signature);
 figure;
 
 plot(signature);
-title('Signal de la signature selectionnees');
-
-
