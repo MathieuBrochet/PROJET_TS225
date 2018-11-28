@@ -5,7 +5,7 @@ clc;
 
 
 
-img = imread('image_cassegrain.jpeg');
+img = imread('image_jusdorange.jpg');
 figure;
 imshow(img);
 
@@ -19,7 +19,7 @@ dy = abs(B(2)-A(2));
 dist = sqrt(dx^2 + dy^2); % distance entre les deux points recuperes
 
 N = floor(dist);  
-
+Sp = [0 1 0];
 vect = 0:1:N-1;
 M = A + vect/(N-1).*(B-A); % segment avec les points a recuperer pour la signature
 
@@ -60,20 +60,56 @@ title('Histogramme de la signature');
 crit = zeros(1,N1);
 w_num = zeros(1,N1);
 mu_num = zeros(1,N1);
-w_den = zeros(1,N1);
-for k =1 : N1 - 1
-    for i =1 : k+1
+w_den = sum(hist);
+W = 0;
+for k =1 : N1 
+    for i =1 : k
         w_num(k) = w_num(k) + hist(i) ; 
         mu_num(k) = mu_num(k) + i*hist(i);
     end
-    w_den(k) = w_den(k) + hist(k);
-    W(k) = w_num(k)./w_den(k);
-    MU(k) = mu_num(k) ./ w_den(k) ; 
+    W(k) = w_num(k)/w_den;
+    MU(k) = mu_num(k)/ w_den; 
 end
 
 
-for k=1:N1-
+for k=1:N1
    crit(k) = W(k).*(MU(N1-1)-MU(k)).^2 + (1-W(k)).*(MU(k).^2); 
 end
 
-critere = max(crit);
+[critere, max ]  = max(crit);
+
+
+seuil = max;
+
+for k = 1:length(signature)
+   if(signature(k)>seuil) 
+        signature_bin(k) = 1 ;
+   else 
+       signature_bin(k) = 0;
+   end    
+end
+
+
+
+
+
+figure;
+subplot(2,1,1);
+plot(signature_bin);
+subplot(2,1,2);
+imshow(img);
+title('Comparaison ');
+
+
+%% determination du debut du code barre
+k = 0;
+while k<1
+    for i=1:length(signature_bin)
+        if signature_bin(i) ==0
+          k = k+1;
+    
+      end
+    end
+end
+
+

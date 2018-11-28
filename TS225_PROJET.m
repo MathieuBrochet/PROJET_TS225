@@ -5,7 +5,7 @@ clc;
 
 
 
-img = imread('image_jusdorange.jpg');
+img = imread('cb.jpg');
 figure;
 imshow(img);
 
@@ -18,14 +18,14 @@ dy = abs(B(2)-A(2));
 
 dist = sqrt(dx^2 + dy^2); % distance entre les deux points recuperes
 
-N = floor(dist);  
-
+N = floor(dist); 
 vect = 0:1:N-1;
 M = A + vect/(N-1).*(B-A); % segment avec les points a recuperer pour la signature
 
 
-
 %% Signature
+
+
 
 image = 1/3*img(:,:,1) + 1/3*img(:,:,2) + 1/3*img(:,:,3);
 imshow(image);
@@ -33,12 +33,12 @@ imshow(image);
 for i=1:length(M)
     signature(i)  = image(floor(M(1,i)),floor(M(2,i)));
 end
-imshow(signature);
-figure;
+% imshow(signature);
+% figure;
 
 
-plot(signature);
-title('Signal de la signature selectionnees');
+% plot(signature);
+% title('Signal de la signature selectionnees');
 
 %% seuil 
 
@@ -52,9 +52,9 @@ for i = 1 : N1
 end 
 
 
-figure;
-plot(hist);
-title('Histogramme de la signature');
+% figure;
+% plot(hist);
+% title('Histogramme de la signature');
 
 
 crit = zeros(1,N1);
@@ -90,9 +90,56 @@ for k = 1:length(signature)
 end
 
 
+
+% 
+% 
+% figure;
+% subplot(2,1,1);
+% plot(signature_bin);
+% subplot(2,1,2);
+% imshow(img);
+% title('Comparaison ');
+
+
+%% determination du debut du code barre
+
+% recuperation de l'indice de debut
+k = 0;
+for i=1:length(signature_bin)
+    if signature_bin(i) ==0 && k==0
+        debut = i;
+        k = k+1;         
+     end
+end
+
+
+% recuperation de l'indice de fin
+for i=1:length(signature_bin)
+   if signature_bin(i) ==0 
+      fin = i;      
+   end
+end
+
+
+signature_f = signature_bin (debut : fin); % on recupere le debut et la fin de notre signature
+
+
 figure;
-subplot(2,1,1);
-plot(signature_bin);
+plot(signature_f);
+
+
+u = floor(N/95)+1; 
+
+%% reechantillonage
+
+step=(fin-debut)/(u*95);
+
+for k=1:u*95
+    code(k)=signature_f(round(k*step)); %interpolation
+end
+
+
+
 subplot(2,1,2);
-imshow(img);
-title('Comparaison ');
+plot(code)
+
