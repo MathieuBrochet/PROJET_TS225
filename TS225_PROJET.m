@@ -171,3 +171,6 @@ sig_9 = signature_bin_2(5*u+3*u+8*7*u+1:5*u+3*u+9*7*u);
 sig_10 = signature_bin_2(5*u+3*u+9*7*u+1:5*u+3*u+10*7*u);
 sig_11 = signature_bin_2(5*u+3*u+10*7*u+1:5*u+3*u+11*7*u);
 sig_12 = signature_bin_2(5*u+3*u+11*7*u+1:5*u+3*u+12*7*u);
+
+
+[x,y,z] = sign2num(u );
