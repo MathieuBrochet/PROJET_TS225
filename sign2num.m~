@@ -1,6 +1,5 @@
-function [chif] = sign2num(u,segment)
-chif = -1;
-seuil = 20;
+function [A2,B2,C2] = sign2num(u,segment)
+
 % element A
 A = zeros(10,7);
 A(1,:) = [1 1 1 0 0 1 0];
@@ -67,24 +66,6 @@ for j = 1:10
     A2(j,:) = A1;
     B2(j,:) = B1;
    C2(j,:) = C1;
-end
-
-for k = 1:10
-    count = 0;
-    for w = 1 : 7*u
-        
-        if segment(w) ~= A2(k,w) 
-            count = count +1;
-            
-%         elseif segment == B2(k,:)
-%             chif = k-1;
-%         elseif segment == C2(k,:)
-%             chif = k-1;
-        end
-    end
-    if count < seuil
-         chif = k-1;
-     end
 end
 
 
