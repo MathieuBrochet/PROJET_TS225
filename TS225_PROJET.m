@@ -130,16 +130,44 @@ plot(signature_f);
 
 u = floor(N/95)+1; 
 
-%% reechantillonage
+
+%% reechantillonage de la signature non binarisee et non echantilloner 
 
 step=(fin-debut)/(u*95);
 
 for k=1:u*95
-    code(k)=signature_f(round(k*step)); %interpolation
+    code(k)=signature(round(k*step)); %interpolation
 end
 
+%% binarisation de la seconde signature
 
 
-subplot(2,1,2);
-plot(code)
+for k = 1:length(code)
+   if(code(k)>seuil) 
+        signature_bin_2(k) = 1 ;
+   else 
+       signature_bin_2(k) = 0;
+   end    
+end
 
+figure;
+plot(signature_bin_2)
+
+title('Binarisation de la nouvelle signature extraite');
+
+%% Division de notre segment en 12 parties 
+
+sig_1 = signature_bin_2(3*u+1:3*u+7*u);
+sig_2 = signature_bin_2(3*u+7*u+1:3*u+2*7*u);
+sig_3 = signature_bin_2(3*u+2*7*u+1:3*u+3*7*u);
+sig_4 = signature_bin_2(3*u+3*7*u+1:3*u+4*7*u);
+sig_5 = signature_bin_2(3*u+4*7*u+1:3*u+5*7*u);
+sig_6 = signature_bin_2(3*u+5*7*u+1:3*u+6*7*u);
+
+
+sig_7 = signature_bin_2(5*u+3*u+6*7*u+1:5*u+3*u+7*7*u);
+sig_8 = signature_bin_2(3*u+7*7*u+5*u+1:5*u+3*u+8*7*u);
+sig_9 = signature_bin_2(5*u+3*u+8*7*u+1:5*u+3*u+9*7*u);
+sig_10 = signature_bin_2(5*u+3*u+9*7*u+1:5*u+3*u+10*7*u);
+sig_11 = signature_bin_2(5*u+3*u+10*7*u+1:5*u+3*u+11*7*u);
+sig_12 = signature_bin_2(5*u+3*u+11*7*u+1:5*u+3*u+12*7*u);
