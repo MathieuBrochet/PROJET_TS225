@@ -9,7 +9,7 @@ img = imread('cb.jpg');
 image = 1/3*img(:,:,1) + 1/3*img(:,:,2) + 1/3*img(:,:,3); % binarisation de l'image
 
 %3 
-k = 0;
+arr = 0;
 
 %% 2 - 3 - 3 - Exctraction de la signature le long d'un rayon utile
 
@@ -65,9 +65,9 @@ end
 
 % recuperation de l'indice de debut
 for i=1:length(signature_bin)
-    if signature_bin(i) ==0 && k==0
+    if signature_bin(i) ==0 && arr==0
         debut = i;
-        k = k+1; %critere d'arret
+        arr = arr+1; %critere d'arret
     end
 end
 
@@ -134,6 +134,7 @@ sig_12 = signature_bin_2(5*u+3*u+11*7*u+1:5*u+3*u+12*7*u);
 
 %% 1 - Construction d'une signature theorique de longeur 7 & Dillatation de la signature théorique sth en fonction de l'unité u  
 
-[value] = sign2num(u,sig_11);
+
+[value] = sign2num(u,sig_10);
 
 
