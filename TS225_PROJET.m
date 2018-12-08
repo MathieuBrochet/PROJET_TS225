@@ -7,7 +7,6 @@ clc;
 N1 = 256;
 img = imread('cb.jpg');
 image = 1/3*img(:,:,1) + 1/3*img(:,:,2) + 1/3*img(:,:,3); % binarisation de l'image
-
 %3 
 arr = 0;
 
@@ -17,23 +16,30 @@ arr = 0;
 %% 1 - Extraction d'une signature par echantillonage de l'intensité de l'image le long du rayon initial
 
 figure;
-imshow(img);
+imshow(image);
+
 title('Selectionnez les 2 extremités du code barre');
 [A,B]=ginput(2);
 
+dist = sqrt((A(2)-A(1))^2 + (B(2)-B(1))^2); % distance entre les deux points recuperes
+dist=round(dist); % arrondis a l'entier le plus proche
+dx = abs(A(2)-A(1))/dist; %calcul de la distance entre les deux points en abscisses
+dy = abs(B(2)-B(1))/dist; %calcul de la distance entre les deux points en ordonnees
 
-dx = abs(B(1)-A(1)); %calcul de la distance entre les deux points en abscisses
-dy = abs(B(2)-A(2)); %calcul de la distance entre les deux points en ordonnees
-dist = sqrt(dx^2 + dy^2); % distance entre les deux points recuperes
 N = floor(dist); % recuperation de la partie entiere de dist
 vect = 0:1:N-1; 
 M = A + vect/(N-1).*(B-A); % segment avec les points a recuperer pour la signature
 
-% premiere signaturee recuperees sur le code barre
-for i=1:length(M)
-    signature(i)  = image(floor(M(1,i)),floor(M(2,i)));
-end
+A = round(A);
+B = round(B);
 
+% premiere signaturee recuperees sur le code barre binarisee prealablement
+for k=0:dist-1
+    signature(k+1) = image(round(B(1)+(k*dy)),round(A(1)+(k*dx)));
+end
+figure;
+plot(signature);
+title('Premiere signature recuperee sur le code barre');
 %% 2 - Estimation d'un seuil de binarisation de la signature
 
 % implementation de l'agorithme histogramme dans la fonction 'Histogram'
@@ -84,7 +90,7 @@ signature_f = signature_bin (debut : fin); % on recupere le debut et la fin de n
 %% 4 - Estimation des extrémités d'un rayon utile correspondant aux limites "gauche" et "droite"
 
 u = floor(N/95)+1; % determination de u pour le reechantillonage de la signature 
-step=(fin-debut)/(u*95);
+pas=(fin-debut)/(u*95);
 fin_ray_utile = 95*u;
 
 %% 5 - Extraction d'une seconde signature par échantillonage de l'intensité de l'image le long du rayon utile
@@ -92,7 +98,7 @@ fin_ray_utile = 95*u;
 
 
 for k=1:fin_ray_utile
-    code(k)=signature(round(k*step)); %interpolation pour avoir un code en multiple de 95
+    code(k)=signature(round(k*pas)); %interpolation pour avoir un code en multiple de 95
 end
 
 %% 6 - Binarisation de la seconde signature
@@ -135,6 +141,6 @@ sig_12 = signature_bin_2(5*u+3*u+11*7*u+1:5*u+3*u+12*7*u);
 %% 1 - Construction d'une signature theorique de longeur 7 & Dillatation de la signature théorique sth en fonction de l'unité u  
 
 
-[value] = sign2num(u,sig_10);
+[value] = sign2num(u,sig_7);
 
 
