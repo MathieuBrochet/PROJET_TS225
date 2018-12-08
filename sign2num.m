@@ -1,6 +1,10 @@
 function [chif] = sign2num(u,segment)
+
+%% initialisation des variables
 chif = -1;
 seuil = 20;
+
+%% 1 - Construction d'une signature theorique de longeur 7
 % element A
 A = zeros(10,7);
 A(1,:) = [1 1 1 0 0 1 0];
@@ -40,6 +44,7 @@ C(8,:) = [0 1 1 1 0 1 1];
 C(9,:) = [0 1 1 0 1 1 1];
 C(10,:) = [0 0 0 1 0 1 1];
 
+%% 2 - Dillatation de la signature théorique sth en fonction de l'unité u
 
 
 for j = 1:10
@@ -66,25 +71,27 @@ for j = 1:10
     end
     A2(j,:) = A1;
     B2(j,:) = B1;
-   C2(j,:) = C1;
+    C2(j,:) = C1;
 end
+
+%% 3 - Mesure de la ressemblance de la signature theorique avec la signature partielle observée après comptage du nombre de différences selon la formulation
 
 for k = 1:10
     count = 0;
     for w = 1 : 7*u
         
-        if segment(w) ~= A2(k,w) 
+        if segment(w) ~= A2(k,w)
             count = count +1;
             
-%         elseif segment == B2(k,:)
-%             chif = k-1;
-%         elseif segment == C2(k,:)
-%             chif = k-1;
+            %         elseif segment == B2(k,:)
+            %             chif = k-1;
+            %         elseif segment == C2(k,:)
+            %             chif = k-1;
         end
     end
     if count < seuil
-         chif = k-1;
-     end
+        chif = k-1;
+    end
 end
 
 
