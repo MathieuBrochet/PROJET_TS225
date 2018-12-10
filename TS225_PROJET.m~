@@ -9,8 +9,7 @@ img = imread('ean13 (1).jpg');
 image = 1/3*img(:,:,1) + 1/3*img(:,:,2) + 1/3*img(:,:,3); % binarisation de l'image
 %3 
 arr = 0;
-%
-tab = [];
+
 %% 2 - 3 - 3 - Exctraction de la signature le long d'un rayon utile
 
 
@@ -124,12 +123,11 @@ title('Binarisation de la nouvelle signature extraite');
 %prendre les 3*u premiers bit / les 5*u bits du milieu du code barre / les
 %3*u derniers bits 
 
-sign = decoupe(signature_bin_2,u);
+sign = decoupe(signature_bin_2);
 
 %% 1 - Construction d'une signature theorique de longeur 7 & Dillatation de la signature théorique sth en fonction de l'unité u  
 
-for i = 1: length(sign(:,1))
+for i = 1: length(sign(1,))
     [value] = sign2num(u,sign(i,:));
-    tab = [tab value]; %pasbon 
 end
 
