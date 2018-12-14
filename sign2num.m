@@ -44,7 +44,7 @@ C(8,:) = [0 1 1 1 0 1 1];
 C(9,:) = [0 1 1 0 1 1 1];
 C(10,:) = [0 0 0 1 0 1 1];
 
-%% 2 - Dillatation de la signature théorique sth en fonction de l'unité u
+%% 2 - Dillatation de la signature theorique sth en fonction de l'unite u
 
 
 for j = 1:10
@@ -74,31 +74,40 @@ for j = 1:10
     C2(j,:) = C1;
 end
 
+D = [ A2 B2 C2 ];
 %% 3 - Mesure de la ressemblance de la signature theorique avec la signature partielle observée après comptage du nombre de différences selon la formulation
 
-for k = 1:10
-    nbdifa = 0;
-    nbdifb = 0;
-    nbdifc = 0;
-    for w = 1 : 7*u        
-        if segment(w) ~= A2(k,w)
-            nbdifa = nbdifa +1;     
-        elseif segment ~= B2(k,:)
-            nbdifb = nbdifb +1;
-        elseif segment ~= C2(k,:)
-            nbdifc = nbdifc +1;
-        end
-    end
-    if nbdifa < nberrmax
-        chif = k-1;
-    elseif nbdifb < nberrmax
-        chif = k-1;
-    elseif nbdifc < nberrmax
-        chif = k-1;
-    end
+% for k = 1:10
+%     nbdifa = zeros(1,10);
+%     nbdifb = zeros(1,10);
+%     nbdifc = zeros(1,10);
+%     for w = 1 : 7*u        
+%         if segment(w) ~= A2(k,w)
+%             nbdifa(k) = nbdifa(k) +1;     
+%         elseif segment(w) ~= B2(k,w)
+%             nbdifb(k) = nbdifb(k) +1;
+%         elseif segment(w) ~= C2(k,w)
+%             nbdifc(k) = nbdifc(k) +1;
+%         end
+%     end
+%     nba = min(nbdifa);
+%     nbb = min(nbdifb);
+%     nbc = min(nbdifc);
+%     nb = min([nba nbb nbc]);
+%     if nb < nberrmax
+%         chiftab(k) = k-1;
+%     end
+% end
+
+% chif=min(chiftab);
+
+nbdif = zeros(1,10);
+norm = [];
+for k = 1:10  
+    norm = abs(segment-A2(k,:));
+    nbdif(k) = sum(norm);
 end
 
-
-
-
+[mini chif] = min(nbdif);
+chif = chif-1;
 end
