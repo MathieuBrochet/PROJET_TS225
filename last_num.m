@@ -14,7 +14,7 @@ sum_pair = 3*(tab(2) + tab(4) + tab(6) + tab(8) + tab(10));
 sum = sum_pair + sum_impair;
 
 % on  récupere le chiffre des unités 
-val_int = MOD(sum,10);
+val_int = mod(sum,10);
 
 % on renvoie le complément à 10
 val  = 10 - val_int;

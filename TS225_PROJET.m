@@ -143,3 +143,10 @@ for i = 1: length(sign(:,1))-1
     tab = [tab value]; %pasbon 
 end
 
+[last_nu] = last_num (tab);
+
+%vecteur avec toutes les valeurs decodee
+
+tab = [tab last_nu];
+
+
