@@ -6,14 +6,13 @@ clc;
 %1
 
 N1 = 256;
-img = imread('codes-barres.png');
+img = imread('photo2.jpg');
 image = 1/3*img(:,:,1) + 1/3*img(:,:,2) + 1/3*img(:,:,3); % binarisation de l'image
 %3 
 arr = 0;
 %
 tab = [];
 %% 2 - 3 - 3 - Exctraction de la signature le long d'un rayon utile
-
 
 %% 1 - Extraction d'une signature par echantillonage de l'intensité de l'image le long du rayon initial
 
@@ -139,14 +138,18 @@ sign = decoupe(signature_bin_2,u);
 %% 1 - Construction d'une signature theorique de longeur 7 & Dillatation de la signature theorique sth en fonction de l'unite u  
 
 tab=[];
-
+ALP =[];
 for i = 1: length(sign(:,1))-1
-    [value] = sign2num(u,sign(i,:));
+    [value,alphabet] = sign2num(u,sign(i,:));
     tab = [tab value]; %pasbon 
+    if i<7
+        ALP = strcat(ALP,alphabet);
+    end
 end
 
+num = first_num(ALP);
+tab = [num tab];
 [last_nu] = last_num (tab);
-
 %vecteur avec toutes les valeurs decodee
 
 tab = [tab last_nu];

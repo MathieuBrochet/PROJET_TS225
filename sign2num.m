@@ -1,4 +1,4 @@
-function [chif] = sign2num(u,segment)
+function [chif,alphabet] = sign2num(u,segment)
 
 %% initialisation des variables
 chif = -1;
@@ -128,13 +128,14 @@ end
 [min_final]  = min([mini1 mini2 mini3]);
 
 if min_final == mini1 
-    chif = chif1
-    
+    chif = chif1;
+    alphabet = 'A';
 elseif  min_final == mini2
-    chif = chif2
-
+    chif = chif2;
+    alphabet = 'B';
 elseif min_final == mini3
-    chif = chif3
+    chif = chif3;
+    alphabet = 'C';
 end 
 
 chif = chif-1;
