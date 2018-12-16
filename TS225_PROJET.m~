@@ -4,12 +4,15 @@ clc;
 
 %% initialisation des variables
 %1
+sign11 = load('segment_good.mat');
+sign12 = sign11.segment_bin ; 
 N1 = 256;
-img = imread('ean13 (1).jpg');
+img = imread('codes-barres.png');
 image = 1/3*img(:,:,1) + 1/3*img(:,:,2) + 1/3*img(:,:,3); % binarisation de l'image
 %3 
 arr = 0;
-
+%
+tab = [];
 %% 2 - 3 - 3 - Exctraction de la signature le long d'un rayon utile
 
 
@@ -18,7 +21,7 @@ arr = 0;
 figure;
 imshow(image);
 
-title('Selectionnez les 2 extremités du code barre');
+title('Selectionnez les 2 extremites du code barre');
 [A,B]=ginput(2);
 
 dist = sqrt((A(2)-A(1))^2 + (B(2)-B(1))^2); % distance entre les deux points recuperes
@@ -60,12 +63,15 @@ critere = Otsu(hist(:),N1);
 
 
 for k = 1:length(signature)
-    if(signature(k)>seuil)
+    if(signature(k)>seuil/)
         signature_bin(k) = 1 ;
     else
         signature_bin(k) = 0;
     end
 end
+
+figure;
+plot(signature_bin);
 
 %% 3 - Determination des limites "gauche" et "droite" de la partie utile de la signature binarisée
 
@@ -87,25 +93,30 @@ end
 
 signature_f = signature_bin (debut : fin); % on recupere le debut et la fin de notre signature
 
-%% 4 - Estimation des extrémités d'un rayon utile correspondant aux limites "gauche" et "droite"
+figure;
+plot(signature_f);
+
+
+%% 4 - Estimation des extremites d'un rayon utile correspondant aux limites "gauche" et "droite"
 
 u = floor(N/95)+1; % determination de u pour le reechantillonage de la signature 
-pas=(fin-debut)/(u*95);
-fin_ray_utile = 95*u;
+distance = fin - debut;
+pas=distance/(u*95);
+fin_ray_utile =fin + distance*95*u;
 
 %% 5 - Extraction d'une seconde signature par échantillonage de l'intensité de l'image le long du rayon utile
 
 
-
-for k=1:fin_ray_utile
-    code(k)=signature(round(k*pas)); %interpolation pour avoir un code en multiple de 95
+for k=1:u*95
+    code(k)=signature(debut + round(k*pas)); %interpolation pour avoir un code en multiple de 95
 end
+
 
 %% 6 - Binarisation de la seconde signature
 
 
 for k = 1:length(code)
-    if(code(k)>seuil)
+    if(code(k)>seuil/10)
         signature_bin_2(k) = 1 ;
     else
         signature_bin_2(k) = 0;
@@ -123,11 +134,22 @@ title('Binarisation de la nouvelle signature extraite');
 %prendre les 3*u premiers bit / les 5*u bits du milieu du code barre / les
 %3*u derniers bits 
 
-sign = decoupe(signature_bin_2);
 
-%% 1 - Construction d'une signature theorique de longeur 7 & Dillatation de la signature théorique sth en fonction de l'unité u  
+sign = decoupe(signature_bin_2,u);
 
-for i = 1: length(sign(1,))
+%% 1 - Construction d'une signature theorique de longeur 7 & Dillatation de la signature theorique sth en fonction de l'unite u  
+
+tab=[];
+
+for i = 1: length(sign(:,1))-1
     [value] = sign2num(u,sign(i,:));
+    tab = [tab value]; %pasbon 
 end
+
+[last_nu] = last_num (tab);
+
+%vecteur avec toutes les valeurs decodee
+
+tab = [tab last_nu];
+
 

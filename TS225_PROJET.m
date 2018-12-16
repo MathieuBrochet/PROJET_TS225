@@ -4,6 +4,7 @@ clc;
 
 %% initialisation des variables
 %1
+
 N1 = 256;
 img = imread('codes-barres.png');
 image = 1/3*img(:,:,1) + 1/3*img(:,:,2) + 1/3*img(:,:,3); % binarisation de l'image
@@ -61,7 +62,7 @@ critere = Otsu(hist(:),N1);
 
 
 for k = 1:length(signature)
-    if(signature(k)>seuil)
+    if(signature(k)>seuil-1)
         signature_bin(k) = 1 ;
     else
         signature_bin(k) = 0;
@@ -114,7 +115,7 @@ end
 
 
 for k = 1:length(code)
-    if(code(k)>seuil)
+    if(code(k)>seuil-1)
         signature_bin_2(k) = 1 ;
     else
         signature_bin_2(k) = 0;
@@ -131,6 +132,7 @@ title('Binarisation de la nouvelle signature extraite');
 %division de la signature en section de 7*u bits en prenant soin de ne pas
 %prendre les 3*u premiers bit / les 5*u bits du milieu du code barre / les
 %3*u derniers bits 
+
 
 sign = decoupe(signature_bin_2,u);
 

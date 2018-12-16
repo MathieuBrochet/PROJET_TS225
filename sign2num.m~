@@ -101,41 +101,23 @@ end
 
 % chif=min(chiftab);
 
-nbdif1 = zeros(1,10);
+nbdif = zeros(1,10);
 norm = [];
 for k = 1:10  
     norm = abs(segment-A2(k,:));
-    nbdif1(k) = sum(norm);
+    nbdif(k) = sum(norm);
 end
-
-nbdif2 = zeros(1,10);
 
 for k = 1:10  
     norm = abs(segment-B2(k,:));
-    nbdif2(k) = sum(norm);
+    nbdif(k) = sum(norm);
 end
-
-nbdif3 = zeros(1,10);
 
 for k = 1:10  
     norm = abs(segment-C2(k,:));
-    nbdif3(k) = sum(norm);
+    nbdif(k) = sum(norm);
 end
 
-[mini1 ,chif1] = min(nbdif1);
-[mini2 ,chif2] = min(nbdif2);
-[mini3 ,chif3] = min(nbdif3);
-[min_final]  = min([mini1 mini2 mini3]);
-
-if min_final == mini1 
-    chif = chif1
-    
-elseif  min_final == mini2
-    chif = chif2
-
-elseif min_final == mini3
-    chif = chif3
-end 
-
+[mini chif] = min(nbdif);
 chif = chif-1;
 end
