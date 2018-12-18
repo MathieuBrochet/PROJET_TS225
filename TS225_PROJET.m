@@ -158,7 +158,7 @@ tab = [tab last_nu];
 
 %% 1 - segmentation en régions d'interet  
 
-[D,Txy] = seg_interet(image(:,:));
+[ D,Txy,Ix,Iy,Wxy ] = seg_interet(image(:,:));
 
 % % binarisation
 % for i=1:length(D(1,:))

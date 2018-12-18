@@ -1,4 +1,4 @@
-function [ D,Txy ] = seg_interet( image )
+function [ D,Txy,Ix,Iy,Wxy ] = seg_interet( image )
 %% help 
 
 
@@ -9,7 +9,7 @@ M = 60;
 x = -M:M;
 
 sigmag2 = 1; % parametre
-sigmat2 = 500 ; % taille de l'image
+sigmat2 = 10 ; % taille de l'image
 % image = I/255;
 
 %% 2 - fonction de ponderation du voisinage 
@@ -35,7 +35,7 @@ T_xy = conv2(Ix.*Iy,Wxy,'same'); % fltre convolutif  avec image
 
 Txy = [T_xx,T_xy ; T_xy , T_yy];
 
-D = sqrt((T_xx-T_yy).^2+4*(T_xy).^2)/(T_xx+T_yy);
+D = sqrt((T_xx-T_yy).^2+4*(T_xy).^2)./(T_xx+T_yy);
 
 
 end
