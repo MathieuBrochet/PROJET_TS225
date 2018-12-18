@@ -6,7 +6,7 @@ clc;
 %1
 
 N1 = 256;
-img = imread('photo2.jpg');
+img = imread('code_boot.jpg');
 image = 1/3*img(:,:,1) + 1/3*img(:,:,2) + 1/3*img(:,:,3); % binarisation de l'image
 %3 
 arr = 0;
@@ -153,5 +153,28 @@ tab = [num tab];
 %vecteur avec toutes les valeurs decodee
 
 tab = [tab last_nu];
+
+%% 3.4 Approche automatique 
+
+%% 1 - segmentation en régions d'interet  
+
+[D,Txy] = seg_interet(image(:,:));
+
+% % binarisation
+% for i=1:length(D(1,:))
+%     for j = 1:length(D(:,1))
+%         if D(i,j) > 0
+%             D(i,j) = 0;
+%         else 
+%             D(i,j) =1;
+%         end
+%         
+%     end
+% end
+
+figure;
+imshow(uint8(D));
+%% 2 - affichage du nombre de tirages aleatoires
+
 
 
