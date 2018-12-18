@@ -1,0 +1,48 @@
+function [ D,Txy ] = seg_interet( image )
+%% help 
+
+
+%% 1 -  initialisation des variables 
+
+sigmag = 60;
+M = 60;
+x = -M:M;
+[X1,Y1] = meshgrid();
+% image = I/255;
+
+%% 2 - fonction de ponderation du voisinage 
+
+function [Wxy  ] = passebas(sigmat2,X,Y  )
+sigmat2 = 500 ; % taille de l'image
+
+%% 3 - dérivée horizontale et verticale du gaussienne
+
+sigmag2 = 1; % parametre
+
+% filtre de canny
+
+[derivy,derivx] = canny(sigmag2,X1,Y1);
+ 
+
+%% 4 - calcul des tenseurs  
+
+Ixx = conv2(deriv_xx,image,'same'); % filtre canny convolutif
+Iyy = conv2(deriv_yy,image,'same');
+Ixy = conv2(deriv_xy,image,'same');
+
+
+T_xx = conv2(Wxy,Ixx,'same'); % fltre convolutif  avec image
+T_yy = conv2(Wxy,Iyy,'same'); % fltre convolutif  avec image
+T_xy = conv2(Wxy,Ixy,'same'); % fltre convolutif  avec image
+%% 5 - mesure de D - très ordonnée tend vers 0, très desordonnée tend vers 1
+
+Txy = [T_xx,T_xy ; T_xy , T_yy];
+
+% [lamb1, lamb2] = eig(Txy);
+% 
+% Dxy = (lamb1 - lamb2)/ (lamb1 + lamb2);
+D = sqrt((T_xx-T_yy).^2+4*(T_xy).^2)/(T_xx+T_yy);
+
+
+end
+

@@ -173,7 +173,7 @@ tab = [tab last_nu];
 % end
 
 figure;
-imshow(uint8(D));
+imshow(D);
 %% 2 - affichage du nombre de tirages aleatoires
 
 
