@@ -185,6 +185,72 @@ title('Masque de detection du code barre');
 
 %% 2 - lancer aléatoire d'un rayon
 
+% on recupere le bloc de la zone la plus probable : 
+%0 = region d interet
+
+
+% utilisation de la technique limite guahc ete limite droite
+
+% x1 = [];
+% x2 = [];
+% y1 = [];
+% y2 = [];
+% Y1 = [];
+% X1 = [];
+% COUNTER =[];
+% counter_zero = 0;
+% % on se place dans le cas ou le code barre est horizontale et on recupere
+% % les coordonnees des passages de 0 a 1 et inversement
+% for nbcol=1:length(D(1,:))-1 % colonne
+%     for nbligne = 1:length(D(:,1)) % ligne
+%         if D1(nbligne,nbcol) == 1 && D1(nbligne,nbcol+1 : nbcol+1+ 5*nbcol) == 0 % Passage de 1 a 0 , potentiel code barre (binarisation de l'etape d'avant)
+%             X1 = [X1 nbcol];
+%             Y1 = [Y1 nbligne];
+%             X2 = [X2 nbcol];
+%             Y2 = [Y2 nbcol+1+ 5*nbcol];
+%             %             k = nbcol+1; % on recupere la valeur du demarage de la colonne de code barre
+%             % comptage de la taille de la zone de zeros
+% %             while D1(nbligne,k)==0 && k<length(D1(:,1)) %tant qu'on est dans la zone de potentiel code barre (D1==0), on compte le nombre de zeros
+% %                 counter_zero = counter_zero + 1; % indicateur si  la zone de 0 contient beaucoup de zeros et est donc un code barre
+% %                 k = k +1; % on passe a la valeur a droite du 0 pour verifier si cest un zero
+% %             end
+%         end
+% %         if D1(nbligne,k) == 0 && D1(nbligne,k+1) == 1 && counter_zero > 5*95 % fin du code barre
+% %             x2 = [x2 nbligne]; %fin de la zone de code barre
+% %             y2 = [y2 k];
+% %             X1= [X1 nbligne+1];
+% %             Y1 = [Y1 nbcol];
+% %             k = 0; %reinitialisation a 0
+% %             COUNTER = [ COUNTER counter_zero ]; % on recupere l'ensemble des distances des zones de zeros
+% %             counter_zero = 0; %reinitialisaion a 0
+% % %         end
+% %         k=0;
+%     end
+% end
+% % 
+% % 
+% % x1y1 = [X1 ; Y1]; % coordonnee de passage blanc noir
+% % x2y2 = [x2 ; y2]; % coordonnee de passage noir blanc
+% 
+% imshow(D1);
+% axis on
+% hold on;
+% % Plot cross at row 100, column 50
+% plot(Y1,X1, 'r+', 'MarkerSize', 15, 'LineWidth', 2);
+% hold on;
+% plot(Y2,X2, 'b+', 'MarkerSize', 15, 'LineWidth', 2);
+% 
+% % on supprime les coordonees inutiles
+
+
+
+
+%figure; imshow(im);
+% title('Detection en région d interet');
+
+
+
+
 count_z = 0;
 
 % calcul le nb de zeros par lignes
@@ -267,14 +333,12 @@ end
 
 
 index_x = 0;
-% recuperation de x2
+% on recupere le point 
 for len=1:length(COUNT_y)
     if COUNT_y(len) ~= 0
         x2 = len;
     end
 end
-
-% recuperation de x1
 init =0;
 for len=1:length(COUNT_y)
     if COUNT_y(len) ~= 0 && init == 0
@@ -284,7 +348,7 @@ for len=1:length(COUNT_y)
 end
 
 init =0;
-% recuperation de y1
+
 for len=1:length(COUNT_x)
     if COUNT_x(len) ~= 0 && init == 0
         y1 = len;
@@ -292,16 +356,18 @@ for len=1:length(COUNT_x)
     end
 end
 
-% recuperation de y2
+
 for len=1:length(COUNT_x)
     if COUNT_x(len) ~= 0
         y2 = len;
     end
 end
 
+
+
 % recuperer les points de ces differents vecteurs (indice vecteur COUNT_x,COUNT_y)
 
-% affichage des points d'interet
+% affichage des 
 
 imshow(D1);
 axis on
@@ -314,3 +380,8 @@ plot(y2,x1, 'r+', 'MarkerSize', 15, 'LineWidth', 2);
 hold on;
 plot(y2,x2, 'b+', 'MarkerSize', 15, 'LineWidth', 2);
 
+
+% recuperer le point de gravité 
+
+
+% faire un tirage aléatoires
