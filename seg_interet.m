@@ -26,6 +26,8 @@ sigmat2 = 10 ; % taille de l'image
 %% 4 - calcul des tenseurs  
 
 
+Ix = Ix/norm(Ix);
+Iy = Iy/norm(Iy);
 T_xx = conv2(Ix.*Ix,Wxy,'same'); % fltre convolutif  avec image
 T_yy = conv2(Iy.*Iy,Wxy,'same'); % fltre convolutif  avec image
 T_xy = conv2(Ix.*Iy,Wxy,'same'); % fltre convolutif  avec image
