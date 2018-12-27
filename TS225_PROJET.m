@@ -40,6 +40,41 @@ title('Masque de detection du code barre');
  
 %% 2 - lancer aléatoire d'un rayon
 
+%% utilisation de la méthode de detection des bordures droite et gauche et ensuite prise de la moitie du sgement 
+% je vous ai écrit un pave qui explique comment j'ai raisonne pour faire la
+% suite 
+
+% probleme marche que pour des images 'clean' apres binarisation (sans point noir trop gros)
+% marche que pour des codes barres horizontaux (je pense)
+% principe je calcul le nb de zeros pour chaque ligne et chaque colonne et
+% Je les mets dans les vecteurs COUNT_x et COUNT_y. 
+
+% Ensuite je dis que quand ya moins de 150 zeros je considere que c'est pas
+% une ligne/colonne interessante donc je mets un 0 dans le vecteur a cet
+% endroit. 
+
+% Ensuite je fais la meme chose avec un seuil superieur de 800 
+
+% ensuite j'enleve les contours souvent noirs avec la binarisation 
+
+% ensuite je considere que si dans COUNT_x et COUNT_y il y a moins de
+% sequence de nombres d'affilee que le pas =11 alors je remplace par 0 tout ces nombres.
+% c'est pour eviter de detecter des zones qui sont un peu plus petite que
+% le code barre 
+
+% et enfin j'affiche les points obtenues sur l'image 
+% et ensuite je prend le milieu des deux sements verticaux et je prend la
+% signature
+
+% faudrait essayer d'autre methode genre centre de gravite 
+
+% apres pour moi le gros soucis vient de l'image une fois binarisee avec le
+% seuil (ligne 22) car c;est censé s'adapter a chaque image sinon on
+% detecte mal 
+
+% voila bon courage 
+% PS : j'ai teste et ca marche que pour cette image :(
+ 
 count_z = 0;
 
 % calcul le nb de zeros par lignes
@@ -333,5 +368,3 @@ tab = [num tab];
 %vecteur avec toutes les valeurs decodee
 
 tab = [tab last_nu];
-
-%% 
